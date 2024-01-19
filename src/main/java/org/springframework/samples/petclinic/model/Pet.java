@@ -15,28 +15,13 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import org.joda.time.LocalDate;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.*;
 
 /**
  * Simple business object representing a pet.
@@ -50,8 +35,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Pet extends NamedEntity {
 
     @Column(name = "birth_date")
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
+//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+//    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate birthDate;
 
     @ManyToOne

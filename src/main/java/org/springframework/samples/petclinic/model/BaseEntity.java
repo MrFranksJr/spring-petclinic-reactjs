@@ -15,12 +15,8 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 /**
  * Simple JavaBean domain object with an id property. Used as a base class for objects needing this property.

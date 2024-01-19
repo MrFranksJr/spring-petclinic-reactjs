@@ -1,14 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.ClinicService;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Colin But
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(VisitController.class)
 public class VisitControllerTests {
 
@@ -33,7 +33,7 @@ public class VisitControllerTests {
     @MockBean
     private ClinicService clinicService;
 
-    @Before
+    @BeforeEach
     public void init() {
         given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(new Pet());
     }
@@ -49,6 +49,7 @@ public class VisitControllerTests {
     public void testProcessNewVisitFormSuccess() throws Exception {
         mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
             .param("name", "George")
+                .param("pet.id", ""+TEST_PET_ID)
             .param("description", "Visit Description")
         )
             .andExpect(status().is3xxRedirection())

@@ -1,19 +1,7 @@
 package org.springframework.samples.petclinic.web.api;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.doAnswer;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +10,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.service.ClinicService;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.LinkedList;
+import java.util.List;
 
-@RunWith(SpringRunner.class)
+import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @WebMvcTest(OwnerResource.class)
 public class OwnerResourceTests {
 
@@ -44,9 +38,9 @@ public class OwnerResourceTests {
 				.accept(MediaType.APPLICATION_JSON)) //
 				.andExpect(status().is4xxClientError()) //
 				.andExpect(content().contentType("application/json")); //
-				
+
 	}
-	
+
 	@Test
 	public void shouldGetOwnerById() throws Exception {
 		given(clinicService.findOwnerById(1)).willReturn(setupOwners().get(1));
@@ -59,7 +53,7 @@ public class OwnerResourceTests {
 				.andExpect(jsonPath("$.city").value("Mainz")) //
 				.andExpect(jsonPath("$.lastName").value("Mueck")); //
 	}
-	
+
 	@Test
 	public void shouldFindOwners() throws Exception {
 		final List<Owner> owners = setupOwners();
@@ -72,7 +66,7 @@ public class OwnerResourceTests {
 		.andExpect(jsonPath("$.[0].id").value(0))
 		.andExpect(jsonPath("$.[1].id").value(2)); //
 	}
-	
+
 
 	@Test
 	public void shouldCreateOwner() throws Exception {
@@ -83,7 +77,7 @@ public class OwnerResourceTests {
 				receivedOwner.setId(666);
 				return null;
 			}
-		}).when(clinicService).saveOwner((Owner) anyObject());
+		}).when(clinicService).saveOwner((Owner) any());
 
 		final Owner newOwner = setupOwners().get(0);
 		newOwner.setId(null);
@@ -91,16 +85,16 @@ public class OwnerResourceTests {
 		ObjectMapper mapper = new ObjectMapper();
 		String ownerAsJsonString = mapper.writeValueAsString(newOwner);
 		newOwner.setId(666);
-		String newOwnerAsJsonString = 
+		String newOwnerAsJsonString =
 				mapper.writeValueAsString(newOwner);
-		
+
 		mvc.perform(post("/api/owner") //
 				.content(ownerAsJsonString).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)) //
 				.andExpect(status().isCreated())
 				.andExpect(content().json(newOwnerAsJsonString))
 		;
 	}
-	
+
 	@Test
 	public void shouldReturnBindingErrors() throws Exception {
 
@@ -110,13 +104,13 @@ public class OwnerResourceTests {
 
 		ObjectMapper mapper = new ObjectMapper();
 		String ownerAsJsonString = mapper.writeValueAsString(newOwner);
-		
+
 		mvc.perform(post("/api/owner") //
 				.content(ownerAsJsonString).accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON)) //
 				.andExpect(status().isUnprocessableEntity())
 				.andExpect(content().contentType("application/json")) //
 				.andExpect(jsonPath("$.fieldErrors.lastName").isNotEmpty()) //
-				
+
 		;
 	}
 

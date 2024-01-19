@@ -1,15 +1,13 @@
 package org.springframework.samples.petclinic.service;
 
 import org.joda.time.LocalDate;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.*;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -36,7 +34,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michael Isvy
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class ClinicServiceSpringDataJpaTests {
 

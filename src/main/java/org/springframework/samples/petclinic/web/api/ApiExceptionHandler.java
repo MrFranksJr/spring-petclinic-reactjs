@@ -5,8 +5,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +29,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler  {
   	result.put("message", exception.getMessage());
   	return ResponseEntity.badRequest().body(result);
   }
-  
+
   /**
    * Credits to: Willie Wheeler (http://springinpractice.com/2013/10/09/generating-json-error-object-responses-with-spring-web-mvc)
    *
@@ -58,14 +58,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler  {
 
       return handleExceptionInternal(ire, error, headers, HttpStatus.UNPROCESSABLE_ENTITY, request);
   }
-  
+
   @ExceptionHandler( { BadRequestException.class } )
   protected ResponseEntity<Object> handleBadRequest(BadRequestException bre, WebRequest request) {
   	logger.info("BadRequestException caught", bre);
-  	
+
   	ErrorResource error = new ErrorResource("BadRequest", bre.getMessage());
   	error.addGlobalError(bre.getMessage());
-  	
+
   	HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
