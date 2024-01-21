@@ -48,7 +48,7 @@ public class OwnerResourceTests {
 		mvc.perform(get("/api/owner/1") //
 				.accept(MediaType.APPLICATION_JSON)) //
 				.andExpect(status().isOk()) //
-				.andExpect(content().contentType("application/json;charset=UTF-8")) //
+				.andExpect(content().contentType("application/json;")) //
 				.andExpect(jsonPath("$.id").value(1)) //
 				.andExpect(jsonPath("$.city").value("Mainz")) //
 				.andExpect(jsonPath("$.lastName").value("Mueck")); //
@@ -59,10 +59,10 @@ public class OwnerResourceTests {
 		final List<Owner> owners = setupOwners();
 		owners.remove(1);
 		given(clinicService.findOwnerByLastName("mueller")).willReturn(owners);
-		mvc.perform(get("/api/owner/list/?lastName=mueller") //
+		mvc.perform(get("/api/owner/list?lastName=mueller") //
 				.accept(MediaType.APPLICATION_JSON)) //
 		.andExpect(status().isOk())
-		.andExpect(content().contentType("application/json;charset=UTF-8")) //
+		.andExpect(content().contentType("application/json;")) //
 		.andExpect(jsonPath("$.[0].id").value(0))
 		.andExpect(jsonPath("$.[1].id").value(2)); //
 	}

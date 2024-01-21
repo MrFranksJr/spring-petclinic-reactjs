@@ -49,7 +49,7 @@ public class VisitControllerTests {
     public void testProcessNewVisitFormSuccess() throws Exception {
         mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID)
             .param("name", "George")
-                .param("pet.id", ""+TEST_PET_ID)
+            .param("pet.id", ""+TEST_PET_ID)
             .param("description", "Visit Description")
         )
             .andExpect(status().is3xxRedirection())
@@ -68,7 +68,9 @@ public class VisitControllerTests {
 
     @Test
     public void testShowVisits() throws Exception {
-        mockMvc.perform(get("/owners/*/pets/{petId}/visits", TEST_PET_ID))
+        mockMvc.perform(get("/owners/*/pets/{petId}/visits", TEST_PET_ID)
+                .param("name", "George")
+                .param("pet.id", ""+TEST_PET_ID))
             .andExpect(status().isOk())
             .andExpect(model().attributeExists("visits"))
             .andExpect(view().name("visitList"));

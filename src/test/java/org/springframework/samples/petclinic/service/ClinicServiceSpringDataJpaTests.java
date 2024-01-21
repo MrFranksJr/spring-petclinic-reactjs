@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.service;
 
-import org.joda.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -10,6 +9,7 @@ import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,6 +65,7 @@ public class ClinicServiceSpringDataJpaTests {
         int found = owners.size();
 
         Owner owner = new Owner();
+        System.out.println(owner);
         owner.setFirstName("Sam");
         owner.setLastName("Schultz");
         owner.setAddress("4, Evans Street");
@@ -120,7 +121,8 @@ public class ClinicServiceSpringDataJpaTests {
         pet.setName("bowser");
         Collection<PetType> types = this.clinicService.findPetTypes();
         pet.setType(EntityUtils.getById(types, PetType.class, 2));
-        pet.setBirthDate(new LocalDate());
+//        pet.setBirthDate(new LocalDate());
+        pet.setBirthDate(new Date(System.currentTimeMillis()));
         owner6.addPet(pet);
         assertThat(owner6.getPets().size()).isEqualTo(found + 1);
 

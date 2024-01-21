@@ -1,33 +1,38 @@
 package org.springframework.samples.petclinic.web.api;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotNull;
-
-import org.joda.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.sql.Date;
 
 public class PetRequest {
 	private Integer		id;
 	@JsonFormat(pattern = "yyyy/MM/dd")
-	
+
 	@NotNull
-	private LocalDate	birthDate;
+//	private LocalDate	birthDate;
+    private Date birthDate;
 	@Size(min = 2, max = 14 )
 	private String		name;
-	
-	Integer	typeId;  
 
-	
-	public LocalDate getBirthDate() {
-		return birthDate;
-	}
+	Integer	typeId;
 
-	public void setBirthDate(LocalDate birthDate) {
-		this.birthDate = birthDate;
-	}
+
+//	public LocalDate getBirthDate() {
+//		return birthDate;
+//	}
+public Date getBirthDate() {
+    return birthDate;
+}
+
+//	public void setBirthDate(LocalDate birthDate) {
+//		this.birthDate = birthDate;
+//	}
+public void setBirthDate(Date birthDate) {
+    this.birthDate = birthDate;
+}
 
 	public String getName() {
 		return name;
@@ -44,11 +49,11 @@ public class PetRequest {
 	public void setTypeId(int typeId) {
 		this.typeId = typeId;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
-	
+
 	public void setId(Integer id) {
 		this.id = id;
 	}

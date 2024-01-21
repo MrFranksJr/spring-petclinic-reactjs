@@ -18,6 +18,8 @@ package org.springframework.samples.petclinic.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Simple JavaBean domain object with an id property. Used as a base class for objects needing this property.
  *
@@ -27,6 +29,7 @@ import jakarta.persistence.*;
 @MappedSuperclass
 public class BaseEntity {
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 

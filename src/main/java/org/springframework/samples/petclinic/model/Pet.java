@@ -17,11 +17,12 @@ package org.springframework.samples.petclinic.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.joda.time.LocalDate;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 
+import java.sql.Date;
 import java.util.*;
+
 
 /**
  * Simple business object representing a pet.
@@ -37,7 +38,8 @@ public class Pet extends NamedEntity {
     @Column(name = "birth_date")
 //    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 //    @DateTimeFormat(pattern = "yyyy/MM/dd")
-    private LocalDate birthDate;
+//    private LocalDate birthDate;
+    private Date birthDate;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
@@ -51,11 +53,18 @@ public class Pet extends NamedEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
     private Set<Visit> visits;
 
-    public LocalDate getBirthDate() {
+//    public LocalDate getBirthDate() {
+//        return this.birthDate;
+//    }
+    public Date getBirthDate() {
         return this.birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+//    public void setBirthDate(LocalDate birthDate) {
+//        this.birthDate = birthDate;
+//    }
+
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 

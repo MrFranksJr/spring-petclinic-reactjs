@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Test class for {@link CrashController}
@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PetClinicApplication.class)
 @WebAppConfiguration
 // Waiting https://github.com/spring-projects/spring-boot/issues/5574
-@Disabled
 public class CrashControllerTests {
 
     @Autowired
@@ -41,11 +40,23 @@ public class CrashControllerTests {
     }
 
     @Test
-    public void testTriggerException() throws Exception {
-        mockMvc.perform(get("/oups"))
-            .andExpect(view().name("exception"))
-            .andExpect(model().attributeExists("exception"))
-            .andExpect(forwardedUrl("exception"))
-            .andExpect(status().isOk());
+    public void testTriggerException()  {
+//        mockMvc.perform(get("/oups")
+//                .contentType(MediaType.APPLICATION_JSON))
+////            .andExpect(view().name("exception"))
+////            .andExpect(model().attributeExists("exception"))
+////            .andExpect(forwardedUrl("exception"))
+////            .andExpect(status().isOk())
+//            .andExpect(result -> assertInstanceOf(RuntimeException.class, result.getResolvedException()))
+//            .andExpect(result -> assertEquals("Expected: controller used to showcase what " +
+//                                    "happens when an exception is thrown", result.getResolvedException().getMessage()));
+
+        Exception ex = assertThrows(ServletException.class, () -> {
+            mockMvc.perform(get("/oups"));
+        });
+
+        assertInstanceOf(ServletException.class, ex);
+        assertEquals("Request processing failed: java.lang.RuntimeException: Expected: controller used to showcase what " +
+                "happens when an exception is thrown", ex.getMessage());
     }
 }
