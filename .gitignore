@@ -8,3 +8,4 @@ target/*
 npm-debug.log
 /bin/
 client/*
+**/.DS_Store
