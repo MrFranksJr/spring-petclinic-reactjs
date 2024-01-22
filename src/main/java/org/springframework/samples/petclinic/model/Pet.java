@@ -19,8 +19,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -36,10 +37,8 @@ import java.util.*;
 public class Pet extends NamedEntity {
 
     @Column(name = "birth_date")
-//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-//    @DateTimeFormat(pattern = "yyyy/MM/dd")
-//    private LocalDate birthDate;
-    private Date birthDate;
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    private LocalDate birthDate;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
@@ -53,18 +52,11 @@ public class Pet extends NamedEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
     private Set<Visit> visits;
 
-//    public LocalDate getBirthDate() {
-//        return this.birthDate;
-//    }
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return this.birthDate;
     }
 
-//    public void setBirthDate(LocalDate birthDate) {
-//        this.birthDate = birthDate;
-//    }
-
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -84,17 +76,6 @@ public class Pet extends NamedEntity {
         this.owner = owner;
     }
 
-    protected Set<Visit> getVisitsInternal() {
-        if (this.visits == null) {
-            this.visits = new HashSet<>();
-        }
-        return this.visits;
-    }
-
-    protected void setVisitsInternal(Set<Visit> visits) {
-        this.visits = visits;
-    }
-
     public List<Visit> getVisits() {
         List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
         PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
@@ -106,8 +87,16 @@ public class Pet extends NamedEntity {
         visit.setPet(this);
     }
 
+    protected Set<Visit> getVisitsInternal() {
+        if (this.visits == null) {
+            this.visits = new HashSet<>();
+        }
+        return this.visits;
+    }
 
-
+    protected void setVisitsInternal(Set<Visit> visits) {
+        this.visits = visits;
+    }
 
 
 }

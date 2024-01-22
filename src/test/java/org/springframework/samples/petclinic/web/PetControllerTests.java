@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -98,7 +99,7 @@ public class PetControllerTests {
 
     @Test
     public void testProcessUpdateFormSuccess() throws Exception {
-        Date date = new Date(2015,2,12);
+        LocalDate date =  LocalDate.of(2015,2,12);
         mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
             .param("name", "Betty")
             .param("type", "hamster")

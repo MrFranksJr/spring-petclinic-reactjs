@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -121,8 +122,7 @@ public class ClinicServiceSpringDataJpaTests {
         pet.setName("bowser");
         Collection<PetType> types = this.clinicService.findPetTypes();
         pet.setType(EntityUtils.getById(types, PetType.class, 2));
-//        pet.setBirthDate(new LocalDate());
-        pet.setBirthDate(new Date(System.currentTimeMillis()));
+        pet.setBirthDate(LocalDate.now());
         owner6.addPet(pet);
         assertThat(owner6.getPets().size()).isEqualTo(found + 1);
 
